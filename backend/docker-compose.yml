@@ -1,0 +1,28 @@
+version: "3.8"
+services:
+  backend:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      DATABASE_URL: mysql://root:password@db:3306/employees
+    depends_on:
+      - db
+    restart: always
+    networks:
+      - app-network
+
+  db:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: employees
+    ports:
+      - "3306:3306"
+    restart: always
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
